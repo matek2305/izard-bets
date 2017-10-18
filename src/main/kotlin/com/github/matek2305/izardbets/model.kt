@@ -15,10 +15,10 @@ data class Competition(
 )
 
 data class Event(
-    val id: String = ObjectId.get().toString(),
-    val homeTeamName: String,
-    val awayTeamName: String,
-    val date: LocalDateTime,
+    var id: String = ObjectId.get().toString(),
+    var homeTeamName: String,
+    var awayTeamName: String,
+    var date: LocalDateTime,
     var homeTeamScore: Int? = null,
     var awayTeamScore: Int? = null
 )
@@ -27,8 +27,8 @@ data class Event(
 data class EventBet(
     @Id
     var id: String? = null,
-    val eventId: String,
-    val who: String,
-    val homeTeamScore: Int,
-    val awayTeamScore: Int
+    var eventId: String,
+    var who: String,
+    var homeTeamScore: Int,
+    var awayTeamScore: Int
 )
