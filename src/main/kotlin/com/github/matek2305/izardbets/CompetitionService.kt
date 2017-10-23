@@ -6,4 +6,6 @@ import org.springframework.stereotype.Service
 class CompetitionService(private val competitionRepository: CompetitionRepository) {
 
     fun findAll() = competitionRepository.findAll()
+
+    fun findById(id: String) = competitionRepository.findById(id)
 }
