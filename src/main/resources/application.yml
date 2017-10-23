@@ -1,0 +1,11 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost/izard
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+endpoints:
+  default:
+    enabled: true

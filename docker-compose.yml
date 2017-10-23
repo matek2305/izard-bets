@@ -1,0 +1,9 @@
+izard-db:
+  image: mongo
+  ports:
+    - "27017:27017"
+
+izard-db-seed:
+  build: ./izard-db-seed
+  links:
+    - izard-db
