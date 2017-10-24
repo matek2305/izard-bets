@@ -2,6 +2,8 @@ package com.github.matek2305.izardbets
 
 import com.github.matek2305.izardbets.api.AddCompetitionCommand
 import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.domain.Competition
+import com.github.matek2305.izardbets.domain.Event
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux

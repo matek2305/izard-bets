@@ -2,6 +2,7 @@ package com.github.matek2305.izardbets
 
 import com.github.matek2305.izardbets.api.AddCompetitionCommand
 import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.exception.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
