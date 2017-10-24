@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 
 @Document(collection = "competitions")
 data class Competition(
-    @Id val id: String,
+    @Id val id: String? = null,
     val name: String,
     val description: String? = null,
     val events: List<Event> = emptyList()
