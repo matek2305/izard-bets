@@ -1,6 +1,7 @@
 package com.github.matek2305.izardbets
 
 import com.github.matek2305.izardbets.api.AddCompetitionCommand
+import com.github.matek2305.izardbets.api.AddEventCommand
 import com.github.matek2305.izardbets.exception.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,4 +27,8 @@ class CompetitionController(private val competitionService: CompetitionService) 
     @PostMapping("/competitions")
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody body: AddCompetitionCommand) = competitionService.create(body)
+
+    @PostMapping("/competitions/{id}/events")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addEvent(@PathVariable id: String, @RequestBody body: AddEventCommand) = competitionService.addEvent(id, body)
 }
