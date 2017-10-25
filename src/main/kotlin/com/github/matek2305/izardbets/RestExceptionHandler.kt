@@ -14,7 +14,7 @@ class RestExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException::class)
-    fun handleResourceNotFoundException(exception: ResourceNotFoundException) : ErrorMessage {
+    fun handleResourceNotFoundException(exception: ResourceNotFoundException): ErrorMessage {
         return ErrorMessage(HttpStatus.NOT_FOUND, exception.message!!)
     }
 }
