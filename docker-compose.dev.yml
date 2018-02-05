@@ -1,0 +1,19 @@
+version: '3'
+services:
+  izard-db:
+    image: mongo
+    ports:
+      - "27017:27017"
+  izard-db-seed:
+    build: ./izard-db-seed
+    links:
+      - izard-db
+  izard-bets:
+    image: matek2305/izard-bets:latest
+    environment:
+      MONGO_HOST: izard-db
+      MONGO_DB_NAME: izard
+    ports:
+      - "9000:8080"
+    depends_on:
+      - izard-db

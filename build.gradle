@@ -2,17 +2,20 @@ buildscript {
 	ext {
 		kotlinVersion = '1.2.21'
 		springBootVersion = '2.0.0.RC1'
+        gradleDockerVersion = '0.13.0'
 	}
 	repositories {
 		mavenCentral()
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
+		maven { url 'https://repo.spring.io/snapshot' }
+		maven { url 'https://repo.spring.io/milestone' }
+        maven { url 'https://plugins.gradle.org/m2/' }
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
-	}
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
+        classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:$gradleDockerVersion")
+    }
 }
 
 apply plugin: 'java'
@@ -22,6 +25,8 @@ apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.palantir.docker'
+
 
 group = 'com.github.matek2305'
 version = '0.0.1-SNAPSHOT'
@@ -75,4 +80,13 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     main = "com.github.shyiko.ktlint.Main"
     classpath = configurations.ktlint
     args '-F', 'src/**/*.kt'
+}
+
+docker {
+    name "matek2305/${jar.baseName}"
+    tags 'latest'
+    dockerfile file('Dockerfile')
+    files jar.archivePath
+    buildArgs(['JAR_FILE': "${jar.archiveName}"])
+    noCache true
 }
