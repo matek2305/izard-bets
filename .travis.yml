@@ -7,5 +7,5 @@ script:
   - docker tag matek2305/izard-bets matek2305/izard-bets:build$TRAVIS_BUILD_NUMBER
   - docker tag matek2305/izard-bets matek2305/izard-bets:latest
   - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-  - docker push matek2305/izard-bets:$TRAVIS_BUILD_NUMBER
+  - docker push matek2305/izard-bets:build$TRAVIS_BUILD_NUMBER
   - docker push matek2305/izard-bets:latest
