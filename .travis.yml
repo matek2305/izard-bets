@@ -4,5 +4,5 @@ jdk:
 
 script:
   - ./gradlew clean build docker
-  - docker login -u $DOCKER_USER -p DOCKER_PASSWORD
+  - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
   - ./gradlew dockerPush
