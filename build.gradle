@@ -84,7 +84,6 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
 
 docker {
     name "matek2305/${jar.baseName}"
-    tags 'latest'
     dockerfile file('Dockerfile')
     files jar.archivePath
     buildArgs(['JAR_FILE': "${jar.archiveName}"])
