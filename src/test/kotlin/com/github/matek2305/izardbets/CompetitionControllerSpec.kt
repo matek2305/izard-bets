@@ -4,7 +4,6 @@ import com.github.matek2305.izardbets.domain.Competition
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.junit.Assert.assertEquals
 import org.mockito.BDDMockito.given
 import org.mockito.Mockito.mock
 import org.springframework.http.MediaType
@@ -42,13 +41,11 @@ object CompetitionControllerSpec : Spek({
             given(competitionServiceMock.findById(competition.id!!))
                 .willReturn(Mono.just(competition))
 
-            val returnResult = webTestClient.get().uri("/competitions/${competition.id}").accept(MediaType.APPLICATION_JSON_UTF8)
+            webTestClient.get().uri("/competitions/${competition.id}").accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 .expectStatus().isOk
                 .expectBody(Competition::class.java)
-                .returnResult()
-
-            assertEquals(competition, returnResult.responseBody)
+                .isEqualTo<Nothing?>(competition)
         }
     }
 })
