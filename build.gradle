@@ -14,18 +14,19 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
+        classpath('org.junit.platform:junit-platform-gradle-plugin:1.0.0')
         classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:$gradleDockerVersion")
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
-apply plugin: 'groovy'
 apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.palantir.docker'
+apply plugin: 'org.junit.platform.gradle.plugin'
 
 
 group = 'com.github.matek2305'
@@ -44,6 +45,7 @@ repositories {
 	mavenCentral()
 	maven { url "https://repo.spring.io/snapshot" }
 	maven { url "https://repo.spring.io/milestone" }
+    maven { url "http://dl.bintray.com/jetbrains/spek" }
 }
 
 configurations {
@@ -60,9 +62,10 @@ dependencies {
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('io.projectreactor:reactor-test')
-	testCompile('org.codehaus.groovy:groovy-all:2.4.12')
-	testCompile('org.spockframework:spock-core:1.1-groovy-2.4')
-    testCompile('org.glassfish:javax.el:3.0.1-b09')
+    testCompile("org.mockito:mockito-core:2.+")
+    testCompile('org.jetbrains.spek:spek-api:1.1.5')
+    testRuntime('org.jetbrains.spek:spek-junit-platform-engine:1.1.5')
+    testRuntime('org.glassfish:javax.el:3.0.1-b09')
 }
 
 task ktlint(type: JavaExec, group: "verification") {
@@ -89,4 +92,12 @@ docker {
     files jar.archivePath
     buildArgs(['JAR_FILE': "${jar.archiveName}"])
     noCache true
+}
+
+junitPlatform {
+    filters {
+        engines {
+            include 'spek'
+        }
+    }
 }
