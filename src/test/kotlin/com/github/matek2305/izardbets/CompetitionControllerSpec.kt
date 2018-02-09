@@ -101,6 +101,8 @@ object CompetitionControllerSpec : Spek({
                 .body(BodyInserters.fromObject(addCompetitionCommand))
                 .exchange()
                 .expectStatus().isCreated
+                .expectBody(Competition::class.java)
+                .isEqualTo<Nothing?>(competition)
         }
     }
 })
