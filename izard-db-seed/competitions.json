@@ -1,11 +1,71 @@
 [
   {
+    "name": "Barcelona vs Chelsea",
+    "type": "SINGLE_EVENT",
+    "invitationCode": "qwertyui",
+    "events": [
+      {
+        "_id": "1",
+        "homeTeamName": "Barcelona",
+        "awayTeamName": "Chelsea",
+        "date": {
+          "$date": "2018-02-20T20:45:00+01:00"
+        }
+      }
+    ]
+  },
+  {
     "name": "Champions League 2017/18",
+    "type": "TOURNAMENT",
+    "invitationCode": "qwertyui",
+    "stages": [
+      {
+        "_id": "1",
+        "name": "Group A",
+        "type": "GROUP"
+      },
+      {
+        "_id": "2",
+        "name": "Group B",
+        "type": "GROUP"
+      },
+      {
+        "_id": "3",
+        "name": "Group C",
+        "type": "GROUP"
+      },
+      {
+        "_id": "4",
+        "name": "Group D",
+        "type": "GROUP"
+      },
+      {
+        "_id": "5",
+        "name": "Group E",
+        "type": "GROUP"
+      },
+      {
+        "_id": "6",
+        "name": "Group F",
+        "type": "GROUP"
+      },
+      {
+        "_id": "7",
+        "name": "Group G",
+        "type": "GROUP"
+      },
+      {
+        "_id": "8",
+        "name": "Group H",
+        "type": "GROUP"
+      }
+    ],
     "events": [
       {
         "_id": "1",
         "homeTeamName": "Roma",
         "awayTeamName": "Chelsea",
+        "stageId": "3",
         "date": {
           "$date": "2017-10-31T20:45:00+01:00"
         }
@@ -14,6 +74,7 @@
         "_id": "2",
         "homeTeamName": "Celtic",
         "awayTeamName": "Bayern",
+        "stageId": "2",
         "date": {
           "$date": "2017-10-31T20:45:00+01:00"
         }
@@ -22,6 +83,7 @@
         "_id": "3",
         "homeTeamName": "Man Utd",
         "awayTeamName": "Benfica",
+        "stageId": "1",
         "date": {
           "$date": "2017-10-31T20:45:00+01:00"
         }
@@ -30,6 +92,7 @@
         "_id": "4",
         "homeTeamName": "Tottenham",
         "awayTeamName": "Real Madryt",
+        "stageId": "8",
         "date": {
           "$date": "2017-11-01T20:45:00+01:00"
         }
@@ -38,6 +101,7 @@
         "_id": "5",
         "homeTeamName": "Napoli",
         "awayTeamName": "Man City",
+        "stageId": "6",
         "date": {
           "$date": "2017-11-01T20:45:00+01:00"
         }
@@ -46,6 +110,8 @@
   },
   {
     "name": "Premier League 2017/18",
+    "type": "LEAGUE",
+    "invitationCode": "qwertyui",
     "events": [
       {
         "_id": "6",
@@ -77,6 +143,8 @@
   },
   {
     "name": "Serie A 2017/18",
+    "type": "LEAGUE",
+    "invitationCode": "qwertyui",
     "events": [
       {
         "_id": "8",
