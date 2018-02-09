@@ -28,6 +28,7 @@ class CompetitionService(private val competitionRepository: CompetitionRepositor
         return Competition(
             name = command.name,
             description = command.description,
+            type = command.type,
             events = command.events.map { buildEvent(it) })
     }
 
