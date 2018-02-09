@@ -27,8 +27,19 @@ object CompetitionControllerSpec : Spek({
             .build()
 
         it("should return all competitions") {
-            val competition1 = Competition(id = "1", name = "name", description = "desc", type = Competition.Type.SINGLE_EVENT)
-            val competition2 = Competition(id = "2", name = "name", description = "desc", type = Competition.Type.SINGLE_EVENT)
+            val competition1 = Competition(
+                id = "1",
+                name = "name",
+                description = "desc",
+                invitationCode = "asd687ds",
+                type = Competition.Type.SINGLE_EVENT)
+
+            val competition2 = Competition(
+                id = "2",
+                name = "name",
+                description = "desc",
+                invitationCode = "asd4s45s",
+                type = Competition.Type.SINGLE_EVENT)
 
             given(competitionServiceMock.findAll())
                 .willReturn(Flux.just(competition1, competition2))
@@ -42,7 +53,12 @@ object CompetitionControllerSpec : Spek({
         }
 
         it("should return single competition") {
-            val competition = Competition(id = "1", name = "name", description = "desc", type = Competition.Type.SINGLE_EVENT)
+            val competition = Competition(
+                id = "1",
+                name = "name",
+                description = "desc",
+                invitationCode = "as2387ds",
+                type = Competition.Type.SINGLE_EVENT)
 
             given(competitionServiceMock.findById(competition.id!!))
                 .willReturn(Mono.just(competition))
@@ -67,6 +83,7 @@ object CompetitionControllerSpec : Spek({
             val competition = Competition(
                 id = "1",
                 name = "Barcelona vs Chelsea",
+                invitationCode = "asuda7y3",
                 type = Competition.Type.SINGLE_EVENT,
                 events = listOf(
                     Event(
