@@ -61,6 +61,7 @@ dependencies {
 	compile('org.jetbrains.kotlin:kotlin-reflect')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
     compile('org.apache.commons:commons-lang3:3.7')
+    compile('org.mindrot:jbcrypt:0.4')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('io.projectreactor:reactor-test')
     testCompile("org.mockito:mockito-inline:2.13.0")

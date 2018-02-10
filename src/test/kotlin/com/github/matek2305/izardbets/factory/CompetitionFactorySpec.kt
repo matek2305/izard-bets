@@ -1,6 +1,7 @@
 package com.github.matek2305.izardbets.factory
 
 import com.github.matek2305.izardbets.InvitationCodeGenerator
+import com.github.matek2305.izardbets.SecretEncoder
 import com.github.matek2305.izardbets.api.AddCompetitionCommand
 import com.github.matek2305.izardbets.api.AddEventCommand
 import com.github.matek2305.izardbets.domain.Competition
@@ -20,18 +21,22 @@ class CompetitionFactorySpec : Spek({
 
     describe("competition factory") {
 
+        val secretEncoderMock = mock(SecretEncoder::class.java)
         val invitationCodeGeneratorMock = mock(InvitationCodeGenerator::class.java)
         val eventFactoryMock = mock(EventFactory::class.java)
-        val competitionFactory = CompetitionFactory(invitationCodeGeneratorMock, eventFactoryMock)
+        val competitionFactory = CompetitionFactory(secretEncoderMock, invitationCodeGeneratorMock, eventFactoryMock)
 
         it("should build competition domain model with generated invitation code") {
             val eventCommandMock = mock(AddEventCommand::class.java)
             val command = AddCompetitionCommand(
-                name = "Barcelon vs Chelsea",
+                name = "Barcelona vs Chelsea",
                 description = "some description",
                 type = Competition.Type.SINGLE_EVENT,
                 secret = "secret",
                 events = listOf(eventCommandMock))
+
+            val encodedSecret = "encoded"
+            given(secretEncoderMock.encode(command.secret)).willReturn(encodedSecret)
 
             val generatedInvCode = "787ads8s"
             given(invitationCodeGeneratorMock.generate()).willReturn(generatedInvCode)
@@ -43,7 +48,7 @@ class CompetitionFactorySpec : Spek({
             assertThat(competition.name, equalTo(command.name))
             assertThat(competition.description, equalTo(command.description))
             assertThat(competition.type, equalTo(command.type))
-            assertThat(competition.secret, equalTo(command.secret))
+            assertThat(competition.secret, equalTo(encodedSecret))
             assertThat(competition.invitationCode, equalTo(generatedInvCode))
             assertThat(competition.events, hasSize(equalTo(1)) and hasElement(eventMock))
         }
