@@ -14,6 +14,7 @@ class CompetitionFactory(
         name = command.name,
         description = command.description,
         type = command.type,
+        secret = command.secret,
         invitationCode = invitationCodeGenerator.generate(),
         events = command.events.map { eventFactory.build(it) })
 }

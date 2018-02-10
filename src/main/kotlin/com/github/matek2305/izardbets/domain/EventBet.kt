@@ -14,7 +14,7 @@ data class EventBet(
     val who: String,
     val homeTeamScore: Int,
     val awayTeamScore: Int,
-    val lockCode: String,
+    val secret: String,
     @CreatedDate val createdAt: LocalDateTime? = null,
     @LastModifiedDate val lastUpdateAt: LocalDateTime? = null
 )

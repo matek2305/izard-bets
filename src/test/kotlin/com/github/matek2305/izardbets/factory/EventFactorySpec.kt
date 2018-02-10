@@ -13,7 +13,7 @@ import org.mockito.Mockito.mock
 import java.time.LocalDateTime
 import java.time.Month
 
-class EventFactorySpec: Spek({
+class EventFactorySpec : Spek({
 
     describe("event factory") {
 
@@ -24,7 +24,7 @@ class EventFactorySpec: Spek({
             val command = AddEventCommand(
                 homeTeamName = "Barcelona",
                 awayTeamName = "Chelsea",
-                date = LocalDateTime.of(2018, Month.FEBRUARY, 20, 20 ,45))
+                date = LocalDateTime.of(2018, Month.FEBRUARY, 20, 20, 45))
 
             val generatedId = "123"
             given(eventIdGeneratorMock.generate()).willReturn(generatedId)

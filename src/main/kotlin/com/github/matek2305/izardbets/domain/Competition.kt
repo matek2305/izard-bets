@@ -13,6 +13,7 @@ data class Competition(
     val description: String? = null,
     val type: Type,
     val events: List<Event> = emptyList(),
+    val secret: String,
     val invitationCode: String,
     @CreatedDate val createdAt: LocalDateTime? = null,
     @LastModifiedDate val lastUpdateAt: LocalDateTime? = null

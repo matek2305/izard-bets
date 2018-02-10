@@ -16,7 +16,7 @@ import org.jetbrains.spek.api.dsl.it
 import org.mockito.BDDMockito.given
 import org.mockito.Mockito.mock
 
-class CompetitionFactorySpec: Spek({
+class CompetitionFactorySpec : Spek({
 
     describe("competition factory") {
 
@@ -30,6 +30,7 @@ class CompetitionFactorySpec: Spek({
                 name = "Barcelon vs Chelsea",
                 description = "some description",
                 type = Competition.Type.SINGLE_EVENT,
+                secret = "secret",
                 events = listOf(eventCommandMock))
 
             val generatedInvCode = "787ads8s"
@@ -42,6 +43,7 @@ class CompetitionFactorySpec: Spek({
             assertThat(competition.name, equalTo(command.name))
             assertThat(competition.description, equalTo(command.description))
             assertThat(competition.type, equalTo(command.type))
+            assertThat(competition.secret, equalTo(command.secret))
             assertThat(competition.invitationCode, equalTo(generatedInvCode))
             assertThat(competition.events, hasSize(equalTo(1)) and hasElement(eventMock))
         }

@@ -6,5 +6,6 @@ data class AddCompetitionCommand(
     val name: String,
     val description: String? = null,
     val type: Competition.Type,
+    val secret: String,
     val events: List<AddEventCommand> = emptyList()
 )

@@ -31,6 +31,7 @@ object CompetitionControllerSpec : Spek({
                 id = "1",
                 name = "name",
                 description = "desc",
+                secret = "secret",
                 invitationCode = "asd687ds",
                 type = Competition.Type.SINGLE_EVENT)
 
@@ -38,6 +39,7 @@ object CompetitionControllerSpec : Spek({
                 id = "2",
                 name = "name",
                 description = "desc",
+                secret = "secret",
                 invitationCode = "asd4s45s",
                 type = Competition.Type.SINGLE_EVENT)
 
@@ -57,6 +59,7 @@ object CompetitionControllerSpec : Spek({
                 id = "1",
                 name = "name",
                 description = "desc",
+                secret = "secret",
                 invitationCode = "as2387ds",
                 type = Competition.Type.SINGLE_EVENT)
 
@@ -74,6 +77,7 @@ object CompetitionControllerSpec : Spek({
             val addCompetitionCommand = AddCompetitionCommand(
                 name = "Barcelona vs Chelsea",
                 type = Competition.Type.SINGLE_EVENT,
+                secret = "secret",
                 events = listOf(
                     AddEventCommand(
                         homeTeamName = "Barcelona",
@@ -83,6 +87,7 @@ object CompetitionControllerSpec : Spek({
             val competition = Competition(
                 id = "1",
                 name = "Barcelona vs Chelsea",
+                secret = "secret",
                 invitationCode = "asuda7y3",
                 type = Competition.Type.SINGLE_EVENT,
                 events = listOf(
