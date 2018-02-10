@@ -4,6 +4,9 @@ import com.github.matek2305.izardbets.api.AddCompetitionCommand
 import com.github.matek2305.izardbets.api.AddEventCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.domain.Event
+import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.hasSize
+import com.natpryce.hamkrest.isEmpty
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
@@ -49,9 +52,9 @@ object CompetitionControllerSpec : Spek({
             webTestClient.get().uri("/competitions").accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 .expectStatus().isOk
-                .expectBodyList(Competition::class.java)
-                .hasSize(2)
-                .contains(competition1, competition2)
+                .expectBody()
+                .jsonPath("$").isArray
+                .jsonPath("$", hasSize(equalTo(2)))
         }
 
         it("should return single competition") {
@@ -69,8 +72,13 @@ object CompetitionControllerSpec : Spek({
             webTestClient.get().uri("/competitions/${competition.id}").accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 .expectStatus().isOk
-                .expectBody(Competition::class.java)
-                .isEqualTo<Nothing?>(competition)
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(competition.id!!)
+                .jsonPath("$.name").isEqualTo(competition.name)
+                .jsonPath("$.secret").doesNotExist()
+                .jsonPath("$.invitationCode").isEqualTo(competition.invitationCode)
+                .jsonPath("$.type").isEqualTo(competition.type.name)
+                .jsonPath("$.events", isEmpty).isArray
         }
 
         it("should create competition") {
@@ -106,8 +114,17 @@ object CompetitionControllerSpec : Spek({
                 .body(BodyInserters.fromObject(addCompetitionCommand))
                 .exchange()
                 .expectStatus().isCreated
-                .expectBody(Competition::class.java)
-                .isEqualTo<Nothing?>(competition)
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(competition.id!!)
+                .jsonPath("$.name").isEqualTo(competition.name)
+                .jsonPath("$.secret").doesNotExist()
+                .jsonPath("$.invitationCode").isEqualTo(competition.invitationCode)
+                .jsonPath("$.type").isEqualTo(competition.type.name)
+                .jsonPath("$.events", hasSize(equalTo(1))).isArray
+                .jsonPath("$.events[0].id").isEqualTo(competition.events[0].id)
+                .jsonPath("$.events[0].homeTeamName").isEqualTo(competition.events[0].homeTeamName)
+                .jsonPath("$.events[0].awayTeamName").isEqualTo(competition.events[0].awayTeamName)
+//                .jsonPath("$.events[0].date").isEqualTo(competition.events[0].date)
         }
     }
 })

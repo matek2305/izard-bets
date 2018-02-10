@@ -1,5 +1,6 @@
 package com.github.matek2305.izardbets.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
@@ -13,7 +14,7 @@ data class Competition(
     val description: String? = null,
     val type: Type,
     val events: List<Event> = emptyList(),
-    val secret: String,
+    @JsonIgnore val secret: String,
     val invitationCode: String,
     @CreatedDate val createdAt: LocalDateTime? = null,
     @LastModifiedDate val lastUpdateAt: LocalDateTime? = null
