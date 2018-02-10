@@ -2,6 +2,7 @@
   {
     "name": "Barcelona vs Chelsea",
     "type": "SINGLE_EVENT",
+    "secret": "$2a$04$AGvP7L3M0/uj6KUO24Fn1.AfxZNwbHMf2x24UM.wVZKqaiKmLfROy",
     "invitationCode": "qwertyui",
     "events": [
       {
@@ -17,6 +18,7 @@
   {
     "name": "Champions League 2017/18",
     "type": "TOURNAMENT",
+    "secret": "$2a$04$AGvP7L3M0/uj6KUO24Fn1.AfxZNwbHMf2x24UM.wVZKqaiKmLfROy",
     "invitationCode": "qwertyui",
     "stages": [
       {
@@ -111,6 +113,7 @@
   {
     "name": "Premier League 2017/18",
     "type": "LEAGUE",
+    "secret": "$2a$04$AGvP7L3M0/uj6KUO24Fn1.AfxZNwbHMf2x24UM.wVZKqaiKmLfROy",
     "invitationCode": "qwertyui",
     "events": [
       {
@@ -144,6 +147,7 @@
   {
     "name": "Serie A 2017/18",
     "type": "LEAGUE",
+    "secret": "$2a$04$AGvP7L3M0/uj6KUO24Fn1.AfxZNwbHMf2x24UM.wVZKqaiKmLfROy",
     "invitationCode": "qwertyui",
     "events": [
       {

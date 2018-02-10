@@ -64,10 +64,10 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('io.projectreactor:reactor-test')
     testCompile("org.mockito:mockito-inline:2.13.0")
+    testCompile('com.natpryce:hamkrest:1.4.2.2')
     testCompile('org.jetbrains.spek:spek-api:1.1.5')
     testRuntime('org.jetbrains.spek:spek-junit-platform-engine:1.1.5')
     testRuntime('org.glassfish:javax.el:3.0.1-b09')
-    testRuntime('com.natpryce:hamkrest:1.4.2.2')
 }
 
 task ktlint(type: JavaExec, group: "verification") {
