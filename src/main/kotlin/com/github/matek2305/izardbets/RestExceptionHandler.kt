@@ -1,6 +1,7 @@
 package com.github.matek2305.izardbets
 
 import com.github.matek2305.izardbets.api.ErrorMessage
+import com.github.matek2305.izardbets.exception.InvalidSecretException
 import com.github.matek2305.izardbets.exception.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -16,5 +17,12 @@ class RestExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFoundException(exception: ResourceNotFoundException): ErrorMessage {
         return ErrorMessage(HttpStatus.NOT_FOUND, exception.message!!)
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(InvalidSecretException::class)
+    fun handleInvalidSecretException(exception: InvalidSecretException): ErrorMessage {
+        return ErrorMessage(HttpStatus.FORBIDDEN, exception.message!!)
     }
 }

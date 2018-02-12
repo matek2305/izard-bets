@@ -4,6 +4,7 @@ import com.github.matek2305.izardbets.api.AddCompetitionCommand
 import com.github.matek2305.izardbets.api.AddEventCommand
 import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
+import com.github.matek2305.izardbets.exception.InvalidSecretException
 import com.github.matek2305.izardbets.factory.CompetitionFactory
 import com.github.matek2305.izardbets.factory.EventFactory
 import org.springframework.stereotype.Service
@@ -14,7 +15,8 @@ import reactor.core.publisher.Mono
 class CompetitionService(
     private val competitionRepository: CompetitionRepository,
     private val competitionFactory: CompetitionFactory,
-    private val eventFactory: EventFactory
+    private val eventFactory: EventFactory,
+    private val secretEncoder: SecretEncoder
 ) {
     fun findAll(): Flux<Competition> = competitionRepository.findAll()
 
@@ -30,6 +32,10 @@ class CompetitionService(
     }
 
     fun updateEvent(competitionId: String, eventId: String, command: UpdateEventScoreCommand) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val competition: Competition = competitionRepository.findById(competitionId).block()!!
+        if (!secretEncoder.check(command.competitionSecret, competition.secret)) {
+            throw InvalidSecretException("Provided secret is not valid, update is forbidden!")
+        }
+
     }
 }
