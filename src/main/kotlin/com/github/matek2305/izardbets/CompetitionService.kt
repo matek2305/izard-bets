@@ -2,6 +2,7 @@ package com.github.matek2305.izardbets
 
 import com.github.matek2305.izardbets.api.AddCompetitionCommand
 import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.factory.CompetitionFactory
 import com.github.matek2305.izardbets.factory.EventFactory
@@ -26,5 +27,9 @@ class CompetitionService(
         return competitionRepository.findById(id)
             .map { it.addEvent(eventFactory.build(command)) }
             .flatMap { competitionRepository.save(it) }
+    }
+
+    fun updateEvent(competitionId: String, eventId: String, command: UpdateEventScoreCommand) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -2,6 +2,7 @@ package com.github.matek2305.izardbets
 
 import com.github.matek2305.izardbets.api.AddCompetitionCommand
 import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.domain.Event
 import com.natpryce.hamkrest.equalTo
@@ -11,6 +12,8 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.verify
+import org.mockito.BDDMockito.verifyNoMoreInteractions
 import org.mockito.Mockito.mock
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -124,7 +127,26 @@ object CompetitionControllerSpec : Spek({
                 .jsonPath("$.events[0].id").isEqualTo(competition.events[0].id)
                 .jsonPath("$.events[0].homeTeamName").isEqualTo(competition.events[0].homeTeamName)
                 .jsonPath("$.events[0].awayTeamName").isEqualTo(competition.events[0].awayTeamName)
-//                .jsonPath("$.events[0].date").isEqualTo(competition.events[0].date)
+                .jsonPath("$.events[0].date").isEqualTo(competition.events[0].date)
+        }
+
+        it("should update event score") {
+            val competitionId = "competitionId"
+            val eventId = "eventId"
+            val command = UpdateEventScoreCommand(
+                competitionSecret = "secret",
+                homeTeamScore = 1,
+                awayTeamScore = 1)
+
+            webTestClient.patch().uri("/competitions/$competitionId/events/$eventId")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(BodyInserters.fromObject(command))
+                .exchange()
+                .expectStatus().isOk
+                .expectBody().isEmpty
+
+            verify(competitionServiceMock).updateEvent(competitionId, eventId, command)
+            verifyNoMoreInteractions(competitionServiceMock)
         }
     }
 })
