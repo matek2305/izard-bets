@@ -50,5 +50,4 @@ class CompetitionServiceSpec : Spek({
             }, throws<InvalidSecretException>())
         }
     }
-
 })

@@ -10,6 +10,7 @@ import com.github.matek2305.izardbets.factory.EventFactory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import reactor.core.publisher.SynchronousSink
 
 @Service
 class CompetitionService(
@@ -32,10 +33,16 @@ class CompetitionService(
     }
 
     fun updateEvent(competitionId: String, eventId: String, command: UpdateEventScoreCommand) {
-        val competition: Competition = competitionRepository.findById(competitionId).block()!!
-        if (!secretEncoder.check(command.competitionSecret, competition.secret)) {
-            throw InvalidSecretException("Provided secret is not valid, update is forbidden!")
-        }
+        competitionRepository.findById(competitionId)
+            .handle { competition, sink: SynchronousSink<Competition> ->
 
+                if (!secretEncoder.check(command.competitionSecret, competition.secret)) {
+                    sink.error(InvalidSecretException("Provided secret is not valid, update forbidden!"))
+                    return@handle
+                }
+
+                sink.next(competition)
+            }
+            .subscribe({ println(it) }, { throw it })
     }
 }
