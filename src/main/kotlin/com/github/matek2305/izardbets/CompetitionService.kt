@@ -35,7 +35,7 @@ class CompetitionService(
     fun updateEvent(competitionId: String, eventId: String, command: UpdateEventScoreCommand): Mono<Competition> {
         return competitionRepository.findById(competitionId)
             .map(validateSecret(command.competitionSecret))
-            .map { it.updateEventScore(eventId, command.homeTeamScore, command.awayTeamScore) }
+            .map(updateEventScore(eventId, command))
             .flatMap { competitionRepository.save(it) }
     }
 
@@ -45,5 +45,12 @@ class CompetitionService(
         }
 
         return@Function competition
+    }
+
+    private fun updateEventScore(
+        eventId: String,
+        command: UpdateEventScoreCommand) = Function { competition: Competition ->
+
+        competition.updateEventScore(eventId, command.homeTeamScore, command.awayTeamScore)
     }
 }
