@@ -29,6 +29,7 @@ object CompetitionControllerSpec : Spek({
         val competitionServiceMock = mock(CompetitionService::class.java)
         val webTestClient = WebTestClient
             .bindToController(CompetitionController(competitionServiceMock))
+            .controllerAdvice(RestExceptionHandler())
             .build()
 
         it("should return all competitions") {
@@ -71,7 +72,8 @@ object CompetitionControllerSpec : Spek({
             given(competitionServiceMock.findById(competition.id!!))
                 .willReturn(Mono.just(competition))
 
-            webTestClient.get().uri("/competitions/${competition.id}").accept(MediaType.APPLICATION_JSON_UTF8)
+            webTestClient.get().uri("/competitions/${competition.id}")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 .expectStatus().isOk
                 .expectBody()
@@ -81,6 +83,18 @@ object CompetitionControllerSpec : Spek({
                 .jsonPath("$.invitationCode").isEqualTo(competition.invitationCode)
                 .jsonPath("$.type").isEqualTo(competition.type.name)
                 .jsonPath("$.events", isEmpty).isArray
+        }
+
+        it("should return not found for not existing competition") {
+            val competitionId = "1"
+
+            given(competitionServiceMock.findById(competitionId))
+                .willReturn(Mono.empty())
+
+            webTestClient.get().uri("/competitions/$competitionId")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                .expectStatus().isNotFound
         }
 
         it("should create competition") {
