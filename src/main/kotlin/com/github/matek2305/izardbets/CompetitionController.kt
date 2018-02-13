@@ -4,8 +4,8 @@ import com.github.matek2305.izardbets.api.AddCompetitionCommand
 import com.github.matek2305.izardbets.api.AddEventCommand
 import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
-import com.github.matek2305.izardbets.exception.ResourceNotFoundException
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -23,9 +23,10 @@ class CompetitionController(private val competitionService: CompetitionService) 
     fun findAll(): Flux<Competition> = competitionService.findAll()
 
     @GetMapping("/competitions/{id}")
-    fun findById(@PathVariable id: String): Mono<Competition> = competitionService
+    fun findById(@PathVariable id: String): Mono<ResponseEntity<Competition>> = competitionService
         .findById(id)
-        .doOnSuccess { it ?: throw ResourceNotFoundException("Competition(id='$id') not found!") }
+        .map { ResponseEntity.ok(it) }
+        .defaultIfEmpty(ResponseEntity.notFound().build())
 
     @PostMapping("/competitions")
     @ResponseStatus(HttpStatus.CREATED)
