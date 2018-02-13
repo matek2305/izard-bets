@@ -10,6 +10,7 @@ import com.github.matek2305.izardbets.factory.EventFactory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.util.function.Function
 
 @Service
 class CompetitionService(
@@ -33,14 +34,16 @@ class CompetitionService(
 
     fun updateEvent(competitionId: String, eventId: String, command: UpdateEventScoreCommand): Mono<Competition> {
         return competitionRepository.findById(competitionId)
-            .map {
-
-                if (secretEncoder.check(command.competitionSecret, it.secret)) {
-                    return@map it.updateEventScore(eventId, command.homeTeamScore, command.awayTeamScore)
-                }
-
-                throw InvalidSecretException("Provided secret is not valid, update forbidden!")
-            }
+            .map(validateSecret(command.competitionSecret))
+            .map { it.updateEventScore(eventId, command.homeTeamScore, command.awayTeamScore) }
             .flatMap { competitionRepository.save(it) }
+    }
+
+    private fun validateSecret(secret: String) = Function { competition: Competition ->
+        if (!secretEncoder.check(secret, competition.secret)) {
+            throw InvalidSecretException("Provided secret is not valid, update forbidden!")
+        }
+
+        return@Function competition
     }
 }
