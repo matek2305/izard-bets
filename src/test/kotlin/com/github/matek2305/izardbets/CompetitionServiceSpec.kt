@@ -30,7 +30,7 @@ class CompetitionServiceSpec : Spek({
 
         it("should throw invalid secret exception when updating event with invalid secret") {
 
-            val competitionId = "competitionId"
+            val competitionId = "1"
             val competitionMock = mock(Competition::class.java)
 
             given(competitionRepositoryMock.findById(competitionId))
@@ -48,6 +48,37 @@ class CompetitionServiceSpec : Spek({
                 .create(competitionService.updateEvent(competitionId, "eventId", command))
                 .expectError(InvalidSecretException::class.java)
                 .verify()
+        }
+
+        it("should update event score") {
+
+            val competitionId = "1"
+            val competitionMock = mock(Competition::class.java)
+
+            given(competitionRepositoryMock.findById(competitionId))
+                .willReturn(Mono.just(competitionMock))
+
+            val command = UpdateEventScoreCommand(
+                competitionSecret = "invalidSecret",
+                homeTeamScore = 1,
+                awayTeamScore = 1)
+
+            given(secretEncoderMock.check(command.competitionSecret, competitionMock.secret))
+                .willReturn(true)
+
+            val eventId = "1"
+            val updatedCompetition = mock(Competition::class.java)
+
+            given(competitionMock.updateEventScore(eventId, command.homeTeamScore, command.awayTeamScore))
+                .willReturn(updatedCompetition)
+
+            given(competitionRepositoryMock.save(updatedCompetition))
+                .willReturn(Mono.just(updatedCompetition))
+
+            StepVerifier
+                .create(competitionService.updateEvent(competitionId, eventId, command))
+                .expectNext(updatedCompetition)
+                .verifyComplete()
         }
     }
 })
