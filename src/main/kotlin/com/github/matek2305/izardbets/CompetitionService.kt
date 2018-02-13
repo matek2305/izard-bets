@@ -10,7 +10,6 @@ import com.github.matek2305.izardbets.factory.EventFactory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import reactor.core.publisher.SynchronousSink
 
 @Service
 class CompetitionService(
@@ -32,17 +31,16 @@ class CompetitionService(
             .flatMap { competitionRepository.save(it) }
     }
 
-    fun updateEvent(competitionId: String, eventId: String, command: UpdateEventScoreCommand) {
-        competitionRepository.findById(competitionId)
-            .handle { competition, sink: SynchronousSink<Competition> ->
+    fun updateEvent(competitionId: String, eventId: String, command: UpdateEventScoreCommand): Mono<Competition> {
+        return competitionRepository.findById(competitionId)
+            .map {
 
-                if (!secretEncoder.check(command.competitionSecret, competition.secret)) {
-                    sink.error(InvalidSecretException("Provided secret is not valid, update forbidden!"))
-                    return@handle
+                if (secretEncoder.check(command.competitionSecret, it.secret)) {
+                    return@map it.updateEventScore(eventId, command.homeTeamScore, command.awayTeamScore)
                 }
 
-                sink.next(competition)
+                throw InvalidSecretException("Provided secret is not valid, update forbidden!")
             }
-            .subscribe({ println(it) }, { throw it })
+            .flatMap { competitionRepository.save(it) }
     }
 }

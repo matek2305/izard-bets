@@ -12,7 +12,6 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.mockito.BDDMockito.given
-import org.mockito.BDDMockito.verify
 import org.mockito.Mockito.mock
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -29,7 +28,6 @@ object CompetitionControllerSpec : Spek({
         val competitionServiceMock = mock(CompetitionService::class.java)
         val webTestClient = WebTestClient
             .bindToController(CompetitionController(competitionServiceMock))
-            .controllerAdvice(RestExceptionHandler())
             .build()
 
         it("should return all competitions") {
@@ -151,14 +149,15 @@ object CompetitionControllerSpec : Spek({
                 homeTeamScore = 1,
                 awayTeamScore = 1)
 
+            given(competitionServiceMock.updateEvent(competitionId, eventId, command))
+                .willReturn(Mono.just(mock(Competition::class.java)))
+
             webTestClient.patch().uri("/competitions/$competitionId/events/$eventId")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(BodyInserters.fromObject(command))
                 .exchange()
                 .expectStatus().isOk
                 .expectBody().isEmpty
-
-            verify(competitionServiceMock).updateEvent(competitionId, eventId, command)
         }
     }
 })

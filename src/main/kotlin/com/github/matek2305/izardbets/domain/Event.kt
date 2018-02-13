@@ -9,4 +9,8 @@ data class Event(
     val date: LocalDateTime,
     val homeTeamScore: Int? = null,
     val awayTeamScore: Int? = null
-)
+) {
+    fun updateScore(id: String, homeTeamScore: Int, awayTeamScore: Int): Event {
+        return if (this.id == id) copy(homeTeamScore = homeTeamScore, awayTeamScore = awayTeamScore) else this
+    }
+}

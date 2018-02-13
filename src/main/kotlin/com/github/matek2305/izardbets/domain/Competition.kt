@@ -21,6 +21,10 @@ data class Competition(
 ) {
     fun addEvent(event: Event): Competition = copy(events = this.events + event)
 
+    fun updateEventScore(id: String, homeTeamScore: Int, awayTeamScore: Int): Competition {
+        return copy(events = events.map { it.updateScore(id, homeTeamScore, awayTeamScore) })
+    }
+
     enum class Type {
         SINGLE_EVENT,
         LEAGUE,

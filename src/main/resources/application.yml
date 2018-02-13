@@ -5,6 +5,8 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: false
+    deserialization:
+      fail-on-null-for-primitives: true
 
 endpoints:
   default:

@@ -46,7 +46,7 @@ class CompetitionServiceSpec : Spek({
                 .willReturn(false)
 
             assertThat({
-                competitionService.updateEvent(competitionId, "eventId", command)
+                competitionService.updateEvent(competitionId, "eventId", command).block()
             }, throws<InvalidSecretException>())
         }
     }

@@ -23,10 +23,11 @@ class CompetitionController(private val competitionService: CompetitionService) 
     fun findAll(): Flux<Competition> = competitionService.findAll()
 
     @GetMapping("/competitions/{id}")
-    fun findById(@PathVariable id: String): Mono<ResponseEntity<Competition>> = competitionService
-        .findById(id)
-        .map { ResponseEntity.ok(it) }
-        .defaultIfEmpty(ResponseEntity.notFound().build())
+    fun findById(@PathVariable id: String): Mono<ResponseEntity<Competition>> =
+        competitionService
+            .findById(id)
+            .map { ResponseEntity.ok(it) }
+            .defaultIfEmpty(ResponseEntity(HttpStatus.NOT_FOUND))
 
     @PostMapping("/competitions")
     @ResponseStatus(HttpStatus.CREATED)
@@ -34,14 +35,16 @@ class CompetitionController(private val competitionService: CompetitionService) 
 
     @PostMapping("/competitions/{id}/events")
     @ResponseStatus(HttpStatus.CREATED)
-    fun addEvent(@PathVariable id: String, @RequestBody body: AddEventCommand) = competitionService.addEvent(id, body)
+    fun addEvent(@PathVariable id: String, @RequestBody body: AddEventCommand) =
+        competitionService.addEvent(id, body)
 
     @PatchMapping("/competitions/{competitionId}/events/{eventId}")
-    @ResponseStatus(HttpStatus.OK)
     fun updateEvent(
         @PathVariable competitionId: String,
         @PathVariable eventId: String,
-        @RequestBody command: UpdateEventScoreCommand) {
+        @RequestBody command: UpdateEventScoreCommand): Mono<ResponseEntity<Void>> =
+
         competitionService.updateEvent(competitionId, eventId, command)
-    }
+            .map { ResponseEntity<Void>(HttpStatus.OK) }
+            .defaultIfEmpty(ResponseEntity(HttpStatus.NOT_FOUND))
 }
