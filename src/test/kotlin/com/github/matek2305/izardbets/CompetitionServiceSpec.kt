@@ -5,14 +5,13 @@ import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.exception.InvalidSecretException
 import com.github.matek2305.izardbets.factory.CompetitionFactory
 import com.github.matek2305.izardbets.factory.EventFactory
-import com.natpryce.hamkrest.assertion.assertThat
-import com.natpryce.hamkrest.throws
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.mockito.BDDMockito.given
 import org.mockito.Mockito.mock
 import reactor.core.publisher.Mono
+import reactor.test.StepVerifier
 
 class CompetitionServiceSpec : Spek({
 
@@ -45,9 +44,10 @@ class CompetitionServiceSpec : Spek({
             given(secretEncoderMock.check(command.competitionSecret, competitionMock.secret))
                 .willReturn(false)
 
-            assertThat({
-                competitionService.updateEvent(competitionId, "eventId", command).block()
-            }, throws<InvalidSecretException>())
+            StepVerifier
+                .create(competitionService.updateEvent(competitionId, "eventId", command))
+                .expectError(InvalidSecretException::class.java)
+                .verify()
         }
     }
 })
