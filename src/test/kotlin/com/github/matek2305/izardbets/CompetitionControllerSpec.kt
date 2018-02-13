@@ -5,6 +5,7 @@ import com.github.matek2305.izardbets.api.AddEventCommand
 import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.domain.Event
+import com.github.matek2305.izardbets.exception.InvalidSecretException
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.hasSize
 import com.natpryce.hamkrest.isEmpty
@@ -13,6 +14,7 @@ import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
 import org.mockito.BDDMockito.given
 import org.mockito.Mockito.mock
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.web.reactive.function.BodyInserters
@@ -28,6 +30,7 @@ object CompetitionControllerSpec : Spek({
         val competitionServiceMock = mock(CompetitionService::class.java)
         val webTestClient = WebTestClient
             .bindToController(CompetitionController(competitionServiceMock))
+            .controllerAdvice(RestExceptionHandler())
             .build()
 
         it("should return all competitions") {
@@ -142,8 +145,8 @@ object CompetitionControllerSpec : Spek({
         }
 
         it("should update event score") {
-            val competitionId = "competitionId"
-            val eventId = "eventId"
+            val competitionId = "1"
+            val eventId = "1"
             val command = UpdateEventScoreCommand(
                 competitionSecret = "secret",
                 homeTeamScore = 1,
@@ -158,6 +161,28 @@ object CompetitionControllerSpec : Spek({
                 .exchange()
                 .expectStatus().isOk
                 .expectBody().isEmpty
+        }
+
+        it("should return forbidden for invalid secret error") {
+            val competitionId = "1"
+            val eventId = "1"
+            val errorMessage = "message"
+            val command = UpdateEventScoreCommand(
+                competitionSecret = "secret",
+                homeTeamScore = 1,
+                awayTeamScore = 1)
+
+            given(competitionServiceMock.updateEvent(competitionId, eventId, command))
+                .willReturn(Mono.error(InvalidSecretException(errorMessage)))
+
+            webTestClient.patch().uri("/competitions/$competitionId/events/$eventId")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(BodyInserters.fromObject(command))
+                .exchange()
+                .expectStatus().isForbidden
+                .expectBody()
+                .jsonPath("$.status").isEqualTo(HttpStatus.FORBIDDEN.name)
+                .jsonPath("$.message").isEqualTo(errorMessage)
         }
     }
 })
