@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.util.function.Function
+import java.util.function.Predicate
 
 @Service
 class CompetitionService(
@@ -34,23 +35,18 @@ class CompetitionService(
 
     fun updateEvent(competitionId: String, eventId: String, command: UpdateEventScoreCommand): Mono<Competition> {
         return competitionRepository.findById(competitionId)
-            .map(validateSecret(command.competitionSecret))
+            .filter(validateSecret(command.competitionSecret))
             .map(updateEventScore(eventId, command))
             .flatMap { competitionRepository.save(it) }
     }
 
-    private fun validateSecret(secret: String) = Function { competition: Competition ->
-        if (!secretEncoder.check(secret, competition.secret)) {
-            throw InvalidSecretException("Provided secret is not valid, update forbidden!")
+    private fun validateSecret(secret: String) = Predicate { competition: Competition ->
+        secretEncoder.check(secret, competition.secret)
+            || throw InvalidSecretException("Provided secret is not valid, update forbidden!")
+    }
+
+    private fun updateEventScore(eventId: String, command: UpdateEventScoreCommand) =
+        Function { competition: Competition ->
+            competition.updateEventScore(eventId, command.homeTeamScore, command.awayTeamScore)
         }
-
-        return@Function competition
-    }
-
-    private fun updateEventScore(
-        eventId: String,
-        command: UpdateEventScoreCommand) = Function { competition: Competition ->
-
-        competition.updateEventScore(eventId, command.homeTeamScore, command.awayTeamScore)
-    }
 }

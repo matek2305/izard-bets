@@ -17,7 +17,6 @@ import org.mockito.Mockito.mock
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
-import org.springframework.web.reactive.function.BodyInserters
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
@@ -128,7 +127,7 @@ object CompetitionControllerSpec : Spek({
             webTestClient.post().uri("/competitions")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .body(BodyInserters.fromObject(addCompetitionCommand))
+                .body(Mono.just(addCompetitionCommand), AddCompetitionCommand::class.java)
                 .exchange()
                 .expectStatus().isCreated
                 .expectBody()
@@ -157,7 +156,7 @@ object CompetitionControllerSpec : Spek({
 
             webTestClient.patch().uri("/competitions/$competitionId/events/$eventId")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body(BodyInserters.fromObject(command))
+                .body(Mono.just(command), UpdateEventScoreCommand::class.java)
                 .exchange()
                 .expectStatus().isOk
                 .expectBody().isEmpty
@@ -177,7 +176,7 @@ object CompetitionControllerSpec : Spek({
 
             webTestClient.patch().uri("/competitions/$competitionId/events/$eventId")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body(BodyInserters.fromObject(command))
+                .body(Mono.just(command), UpdateEventScoreCommand::class.java)
                 .exchange()
                 .expectStatus().isForbidden
                 .expectBody()

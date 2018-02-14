@@ -31,20 +31,22 @@ class CompetitionController(private val competitionService: CompetitionService) 
 
     @PostMapping("/competitions")
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody body: AddCompetitionCommand) = competitionService.create(body)
+    fun create(@RequestBody command: Mono<AddCompetitionCommand>): Mono<Competition> =
+        command.flatMap { competitionService.create(it) }
 
     @PostMapping("/competitions/{id}/events")
     @ResponseStatus(HttpStatus.CREATED)
-    fun addEvent(@PathVariable id: String, @RequestBody body: AddEventCommand) =
-        competitionService.addEvent(id, body)
+    fun addEvent(@PathVariable id: String, @RequestBody command: Mono<AddEventCommand>): Mono<Competition> =
+        command.flatMap { competitionService.addEvent(id, it) }
 
     @PatchMapping("/competitions/{competitionId}/events/{eventId}")
     fun updateEvent(
         @PathVariable competitionId: String,
         @PathVariable eventId: String,
-        @RequestBody command: UpdateEventScoreCommand): Mono<ResponseEntity<Void>> =
+        @RequestBody command: Mono<UpdateEventScoreCommand>): Mono<ResponseEntity<Void>> =
 
-        competitionService.updateEvent(competitionId, eventId, command)
+        command
+            .flatMap { competitionService.updateEvent(competitionId, eventId, it) }
             .map { ResponseEntity<Void>(HttpStatus.OK) }
             .defaultIfEmpty(ResponseEntity(HttpStatus.NOT_FOUND))
 }
