@@ -4,6 +4,7 @@ import com.github.matek2305.izardbets.api.AddCompetitionCommand
 import com.github.matek2305.izardbets.api.AddEventCommand
 import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
+import com.github.matek2305.izardbets.validator.AddCompetitionCommandValidator
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,7 +18,10 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @RestController
-class CompetitionController(private val competitionService: CompetitionService) {
+class CompetitionController(
+    private val competitionService: CompetitionService,
+    private val addCompetitionCommandValidator: AddCompetitionCommandValidator
+) {
 
     @GetMapping("/competitions")
     fun findAll(): Flux<Competition> = competitionService.findAll()
@@ -32,7 +36,9 @@ class CompetitionController(private val competitionService: CompetitionService) 
     @PostMapping("/competitions")
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody command: Mono<AddCompetitionCommand>): Mono<Competition> =
-        command.flatMap { competitionService.create(it) }
+        command
+            .map { addCompetitionCommandValidator.validate(it) }
+            .flatMap { competitionService.create(it) }
 
     @PostMapping("/competitions/{id}/events")
     @ResponseStatus(HttpStatus.CREATED)

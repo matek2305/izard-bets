@@ -1,32 +1,36 @@
 package com.github.matek2305.izardbets
 
 import com.github.matek2305.izardbets.exception.InvalidSecretException
+import com.github.matek2305.izardbets.exception.ValidationFailedException
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import org.jetbrains.spek.api.Spek
-import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.on
 import org.springframework.http.HttpStatus
 
 object RestExceptionHandlerSpec : Spek({
 
-    given("rest exception handler") {
+    describe("rest exception handler") {
 
         val exceptionHandler = RestExceptionHandler()
 
-        on("invalid secret exception occurs") {
+        it("should map invalid secret to FORBIDDEN") {
 
             val exception = InvalidSecretException("message")
+            val errorMessage = exceptionHandler.handleInvalidSecretException(exception)
 
-            it("should create error message") {
+            assertThat(errorMessage.message, equalTo(exception.message))
+            assertThat(errorMessage.status, equalTo(HttpStatus.FORBIDDEN))
+        }
 
-                val errorMessage = exceptionHandler
-                    .handleInvalidSecretException(exception)
+        it("should map failed validation as BAD_REQUEST") {
 
-                assertThat(errorMessage.message, equalTo(exception.message))
-                assertThat(errorMessage.status, equalTo(HttpStatus.FORBIDDEN))
-            }
+            val exception = ValidationFailedException("message")
+            val errorMessage = exceptionHandler.handleValidationFailedException(exception)
+
+            assertThat(errorMessage.message, equalTo(exception.message))
+            assertThat(errorMessage.status, equalTo(HttpStatus.BAD_REQUEST))
         }
     }
 })

@@ -6,6 +6,8 @@ import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.domain.Event
 import com.github.matek2305.izardbets.exception.InvalidSecretException
+import com.github.matek2305.izardbets.exception.ValidationFailedException
+import com.github.matek2305.izardbets.validator.AddCompetitionCommandValidator
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.hasSize
 import com.natpryce.hamkrest.isEmpty
@@ -27,8 +29,12 @@ object CompetitionControllerSpec : Spek({
     describe("competition controller") {
 
         val competitionServiceMock = mock(CompetitionService::class.java)
+        val addCompetitionCommandValidatorMock = mock(AddCompetitionCommandValidator::class.java)
+
         val webTestClient = WebTestClient
-            .bindToController(CompetitionController(competitionServiceMock))
+            .bindToController(CompetitionController(
+                competitionServiceMock,
+                addCompetitionCommandValidatorMock))
             .controllerAdvice(RestExceptionHandler())
             .build()
 
@@ -97,6 +103,27 @@ object CompetitionControllerSpec : Spek({
                 .expectStatus().isNotFound
         }
 
+        it("should return bad request for invalid add competition command") {
+            val addCompetitionCommand = AddCompetitionCommand(
+                name = "Barcelona vs Chelsea",
+                type = Competition.Type.SINGLE_EVENT,
+                secret = "secret")
+
+            val validationErrorMessage = "message"
+            given(addCompetitionCommandValidatorMock.validate(addCompetitionCommand))
+                .willThrow(ValidationFailedException(validationErrorMessage))
+
+            webTestClient.post().uri("/competitions")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(addCompetitionCommand), AddCompetitionCommand::class.java)
+                .exchange()
+                .expectStatus().isBadRequest
+                .expectBody()
+                .jsonPath("$.status").isEqualTo(HttpStatus.BAD_REQUEST.name)
+                .jsonPath("$.message").isEqualTo(validationErrorMessage)
+        }
+
         it("should create competition") {
             val addCompetitionCommand = AddCompetitionCommand(
                 name = "Barcelona vs Chelsea",
@@ -120,6 +147,9 @@ object CompetitionControllerSpec : Spek({
                         homeTeamName = "Barcelona",
                         awayTeamName = "Chelsea",
                         date = LocalDateTime.of(2018, Month.FEBRUARY, 20, 20, 45))))
+
+            given(addCompetitionCommandValidatorMock.validate(addCompetitionCommand))
+                .willReturn(addCompetitionCommand)
 
             given(competitionServiceMock.create(addCompetitionCommand))
                 .willReturn(Mono.just(competition))
@@ -162,7 +192,7 @@ object CompetitionControllerSpec : Spek({
                 .expectBody().isEmpty
         }
 
-        it("should return forbidden for invalid secret error") {
+        it("should return forbidden for invalid secret") {
             val competitionId = "1"
             val eventId = "1"
             val errorMessage = "message"
