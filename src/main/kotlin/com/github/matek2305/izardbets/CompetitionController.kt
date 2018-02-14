@@ -1,7 +1,7 @@
 package com.github.matek2305.izardbets
 
-import com.github.matek2305.izardbets.api.AddCompetitionCommand
-import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.api.CreateEventCommand
 import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.validator.AddCompetitionCommandValidator
@@ -35,14 +35,14 @@ class CompetitionController(
 
     @PostMapping("/competitions")
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody command: Mono<AddCompetitionCommand>): Mono<Competition> =
+    fun create(@RequestBody command: Mono<CreateCompetitionCommand>): Mono<Competition> =
         command
             .map { addCompetitionCommandValidator.validate(it) }
             .flatMap { competitionService.create(it) }
 
     @PostMapping("/competitions/{id}/events")
     @ResponseStatus(HttpStatus.CREATED)
-    fun addEvent(@PathVariable id: String, @RequestBody command: Mono<AddEventCommand>): Mono<Competition> =
+    fun addEvent(@PathVariable id: String, @RequestBody command: Mono<CreateEventCommand>): Mono<Competition> =
         command.flatMap { competitionService.addEvent(id, it) }
 
     @PatchMapping("/competitions/{competitionId}/events/{eventId}")

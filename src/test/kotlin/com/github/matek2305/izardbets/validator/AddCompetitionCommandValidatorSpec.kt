@@ -1,7 +1,7 @@
 package com.github.matek2305.izardbets.validator
 
-import com.github.matek2305.izardbets.api.AddCompetitionCommand
-import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.api.CreateEventCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.exception.ValidationFailedException
 import com.natpryce.hamkrest.assertion.assertThat
@@ -27,8 +27,8 @@ class AddCompetitionCommandValidatorSpec : Spek({
 
         it("should fail for SINGLE_EVENT competition type with more than one event") {
 
-            val event1 = mock(AddEventCommand::class.java)
-            val event2 = mock(AddEventCommand::class.java)
+            val event1 = mock(CreateEventCommand::class.java)
+            val event2 = mock(CreateEventCommand::class.java)
 
             assertThat({
                 validator.validate(singleEventCompetitionWith(listOf(event1, event2)))
@@ -37,7 +37,7 @@ class AddCompetitionCommandValidatorSpec : Spek({
 
         it("should pass for SINGLE_EVENT competition type with exactly one event") {
 
-            val event = mock(AddEventCommand::class.java)
+            val event = mock(CreateEventCommand::class.java)
             val command = singleEventCompetitionWith(listOf(event))
 
             assertThat(validator.validate(command), equalTo(command))
@@ -45,8 +45,8 @@ class AddCompetitionCommandValidatorSpec : Spek({
     }
 })
 
-private fun singleEventCompetitionWith(events: List<AddEventCommand>): AddCompetitionCommand {
-    return AddCompetitionCommand(
+private fun singleEventCompetitionWith(events: List<CreateEventCommand>): CreateCompetitionCommand {
+    return CreateCompetitionCommand(
         name = "sample",
         type = Competition.Type.SINGLE_EVENT,
         secret = "secret",

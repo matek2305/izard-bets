@@ -2,8 +2,8 @@ package com.github.matek2305.izardbets.factory
 
 import com.github.matek2305.izardbets.InvitationCodeGenerator
 import com.github.matek2305.izardbets.SecretEncoder
-import com.github.matek2305.izardbets.api.AddCompetitionCommand
-import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.api.CreateEventCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.domain.Event
 import com.natpryce.hamkrest.and
@@ -27,8 +27,8 @@ class CompetitionFactorySpec : Spek({
         val competitionFactory = CompetitionFactory(secretEncoderMock, invitationCodeGeneratorMock, eventFactoryMock)
 
         it("should build competition domain model with generated invitation code") {
-            val eventCommandMock = mock(AddEventCommand::class.java)
-            val command = AddCompetitionCommand(
+            val eventCommandMock = mock(CreateEventCommand::class.java)
+            val command = CreateCompetitionCommand(
                 name = "Barcelona vs Chelsea",
                 description = "some description",
                 type = Competition.Type.SINGLE_EVENT,

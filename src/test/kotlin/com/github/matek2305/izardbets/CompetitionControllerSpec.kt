@@ -1,7 +1,7 @@
 package com.github.matek2305.izardbets
 
-import com.github.matek2305.izardbets.api.AddCompetitionCommand
-import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.api.CreateEventCommand
 import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.domain.Event
@@ -104,7 +104,7 @@ object CompetitionControllerSpec : Spek({
         }
 
         it("should return bad request for invalid add competition command") {
-            val addCompetitionCommand = AddCompetitionCommand(
+            val addCompetitionCommand = CreateCompetitionCommand(
                 name = "Barcelona vs Chelsea",
                 type = Competition.Type.SINGLE_EVENT,
                 secret = "secret")
@@ -116,7 +116,7 @@ object CompetitionControllerSpec : Spek({
             webTestClient.post().uri("/competitions")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .body(Mono.just(addCompetitionCommand), AddCompetitionCommand::class.java)
+                .body(Mono.just(addCompetitionCommand), CreateCompetitionCommand::class.java)
                 .exchange()
                 .expectStatus().isBadRequest
                 .expectBody()
@@ -125,12 +125,12 @@ object CompetitionControllerSpec : Spek({
         }
 
         it("should create competition") {
-            val addCompetitionCommand = AddCompetitionCommand(
+            val addCompetitionCommand = CreateCompetitionCommand(
                 name = "Barcelona vs Chelsea",
                 type = Competition.Type.SINGLE_EVENT,
                 secret = "secret",
                 events = listOf(
-                    AddEventCommand(
+                    CreateEventCommand(
                         homeTeamName = "Barcelona",
                         awayTeamName = "Chelsea",
                         date = LocalDateTime.of(2018, Month.FEBRUARY, 20, 20, 45))))
@@ -157,7 +157,7 @@ object CompetitionControllerSpec : Spek({
             webTestClient.post().uri("/competitions")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .body(Mono.just(addCompetitionCommand), AddCompetitionCommand::class.java)
+                .body(Mono.just(addCompetitionCommand), CreateCompetitionCommand::class.java)
                 .exchange()
                 .expectStatus().isCreated
                 .expectBody()

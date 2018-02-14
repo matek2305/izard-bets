@@ -2,7 +2,7 @@ package com.github.matek2305.izardbets.factory
 
 import com.github.matek2305.izardbets.InvitationCodeGenerator
 import com.github.matek2305.izardbets.SecretEncoder
-import com.github.matek2305.izardbets.api.AddCompetitionCommand
+import com.github.matek2305.izardbets.api.CreateCompetitionCommand
 import com.github.matek2305.izardbets.domain.Competition
 import org.springframework.stereotype.Component
 
@@ -12,7 +12,7 @@ class CompetitionFactory(
     private val invitationCodeGenerator: InvitationCodeGenerator,
     private val eventFactory: EventFactory
 ) {
-    fun build(command: AddCompetitionCommand): Competition = Competition(
+    fun build(command: CreateCompetitionCommand): Competition = Competition(
         name = command.name,
         description = command.description,
         type = command.type,

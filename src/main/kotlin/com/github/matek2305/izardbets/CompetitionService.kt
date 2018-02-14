@@ -1,7 +1,7 @@
 package com.github.matek2305.izardbets
 
-import com.github.matek2305.izardbets.api.AddCompetitionCommand
-import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.api.CreateEventCommand
 import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
 import com.github.matek2305.izardbets.domain.Competition
 import com.github.matek2305.izardbets.exception.InvalidSecretException
@@ -24,10 +24,10 @@ class CompetitionService(
 
     fun findById(id: String): Mono<Competition> = competitionRepository.findById(id)
 
-    fun create(command: AddCompetitionCommand): Mono<Competition> =
+    fun create(command: CreateCompetitionCommand): Mono<Competition> =
         competitionRepository.save(competitionFactory.build(command))
 
-    fun addEvent(id: String, command: AddEventCommand): Mono<Competition> {
+    fun addEvent(id: String, command: CreateEventCommand): Mono<Competition> {
         return competitionRepository.findById(id)
             .map { it.addEvent(eventFactory.build(command)) }
             .flatMap { competitionRepository.save(it) }

@@ -1,7 +1,7 @@
 package com.github.matek2305.izardbets.factory
 
 import com.github.matek2305.izardbets.EventIdGenerator
-import com.github.matek2305.izardbets.api.AddEventCommand
+import com.github.matek2305.izardbets.api.CreateEventCommand
 import com.natpryce.hamkrest.absent
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
@@ -21,7 +21,7 @@ class EventFactorySpec : Spek({
         val eventFactory = EventFactory(eventIdGeneratorMock)
 
         it("should build event domain model with generated id") {
-            val command = AddEventCommand(
+            val command = CreateEventCommand(
                 homeTeamName = "Barcelona",
                 awayTeamName = "Chelsea",
                 date = LocalDateTime.of(2018, Month.FEBRUARY, 20, 20, 45))
