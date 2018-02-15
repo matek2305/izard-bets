@@ -1,10 +1,10 @@
-package com.github.matek2305.izardbets.competition.factory
+package com.github.matek2305.izardbets.competitions.factory
 
 import com.github.matek2305.izardbets.common.SecretEncoder
-import com.github.matek2305.izardbets.competition.api.CreateCompetitionCommand
-import com.github.matek2305.izardbets.competition.api.CreateEventCommand
-import com.github.matek2305.izardbets.competition.domain.Competition
-import com.github.matek2305.izardbets.competition.domain.Event
+import com.github.matek2305.izardbets.competitions.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.competitions.api.CreateEventCommand
+import com.github.matek2305.izardbets.competitions.domain.Competition
+import com.github.matek2305.izardbets.competitions.domain.Event
 import com.natpryce.hamkrest.and
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
@@ -18,14 +18,14 @@ import org.mockito.Mockito.mock
 
 class CompetitionFactorySpec : Spek({
 
-    describe("competition factory") {
+    describe("competitions factory") {
 
         val secretEncoderMock = mock(SecretEncoder::class.java)
         val invitationCodeGeneratorMock = mock(InvitationCodeGenerator::class.java)
         val eventFactoryMock = mock(EventFactory::class.java)
         val competitionFactory = CompetitionFactory(secretEncoderMock, invitationCodeGeneratorMock, eventFactoryMock)
 
-        it("should build competition domain model with generated invitation code") {
+        it("should build competitions domain model with generated invitation code") {
             val eventCommandMock = mock(CreateEventCommand::class.java)
             val command = CreateCompetitionCommand(
                 name = "Barcelona vs Chelsea",

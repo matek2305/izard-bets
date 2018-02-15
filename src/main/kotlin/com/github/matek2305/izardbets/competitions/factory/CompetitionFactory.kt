@@ -1,8 +1,8 @@
-package com.github.matek2305.izardbets.competition.factory
+package com.github.matek2305.izardbets.competitions.factory
 
 import com.github.matek2305.izardbets.common.SecretEncoder
-import com.github.matek2305.izardbets.competition.api.CreateCompetitionCommand
-import com.github.matek2305.izardbets.competition.domain.Competition
+import com.github.matek2305.izardbets.competitions.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.competitions.domain.Competition
 import org.springframework.stereotype.Component
 
 @Component

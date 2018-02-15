@@ -1,14 +1,14 @@
-package com.github.matek2305.izardbets.competition
+package com.github.matek2305.izardbets.competitions
 
 import com.github.matek2305.izardbets.common.SecretEncoder
 import com.github.matek2305.izardbets.common.exception.InvalidSecretException
-import com.github.matek2305.izardbets.competition.api.CreateCompetitionCommand
-import com.github.matek2305.izardbets.competition.api.CreateEventCommand
-import com.github.matek2305.izardbets.competition.api.UpdateEventScoreCommand
-import com.github.matek2305.izardbets.competition.domain.Competition
-import com.github.matek2305.izardbets.competition.domain.CompetitionRepository
-import com.github.matek2305.izardbets.competition.factory.CompetitionFactory
-import com.github.matek2305.izardbets.competition.factory.EventFactory
+import com.github.matek2305.izardbets.competitions.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.competitions.api.CreateEventCommand
+import com.github.matek2305.izardbets.competitions.api.UpdateEventScoreCommand
+import com.github.matek2305.izardbets.competitions.domain.Competition
+import com.github.matek2305.izardbets.competitions.domain.CompetitionRepository
+import com.github.matek2305.izardbets.competitions.factory.CompetitionFactory
+import com.github.matek2305.izardbets.competitions.factory.EventFactory
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono

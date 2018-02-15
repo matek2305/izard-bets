@@ -1,6 +1,6 @@
-package com.github.matek2305.izardbets.competition.factory
+package com.github.matek2305.izardbets.competitions.factory
 
-import com.github.matek2305.izardbets.competition.api.CreateEventCommand
+import com.github.matek2305.izardbets.competitions.api.CreateEventCommand
 import com.natpryce.hamkrest.absent
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo

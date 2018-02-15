@@ -1,6 +1,6 @@
-package com.github.matek2305.izardbets.competition.api
+package com.github.matek2305.izardbets.competitions.api
 
-import com.github.matek2305.izardbets.competition.domain.Competition
+import com.github.matek2305.izardbets.competitions.domain.Competition
 
 data class CreateCompetitionCommand(
     val name: String,

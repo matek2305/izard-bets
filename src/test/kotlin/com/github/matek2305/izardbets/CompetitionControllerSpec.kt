@@ -3,14 +3,14 @@ package com.github.matek2305.izardbets
 import com.github.matek2305.izardbets.common.RestExceptionHandler
 import com.github.matek2305.izardbets.common.exception.InvalidSecretException
 import com.github.matek2305.izardbets.common.exception.ValidationFailedException
-import com.github.matek2305.izardbets.competition.CompetitionController
-import com.github.matek2305.izardbets.competition.CompetitionService
-import com.github.matek2305.izardbets.competition.api.CreateCompetitionCommand
-import com.github.matek2305.izardbets.competition.api.CreateEventCommand
-import com.github.matek2305.izardbets.competition.api.UpdateEventScoreCommand
-import com.github.matek2305.izardbets.competition.domain.Competition
-import com.github.matek2305.izardbets.competition.domain.Event
-import com.github.matek2305.izardbets.competition.validator.CreateCompetitionCommandValidator
+import com.github.matek2305.izardbets.competitions.CompetitionController
+import com.github.matek2305.izardbets.competitions.CompetitionService
+import com.github.matek2305.izardbets.competitions.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.competitions.api.CreateEventCommand
+import com.github.matek2305.izardbets.competitions.api.UpdateEventScoreCommand
+import com.github.matek2305.izardbets.competitions.domain.Competition
+import com.github.matek2305.izardbets.competitions.domain.Event
+import com.github.matek2305.izardbets.competitions.validator.CreateCompetitionCommandValidator
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.hasSize
 import com.natpryce.hamkrest.isEmpty
@@ -29,7 +29,7 @@ import java.time.Month
 
 object CompetitionControllerSpec : Spek({
 
-    describe("competition controller") {
+    describe("competitions controller") {
 
         val competitionServiceMock = mock(CompetitionService::class.java)
         val addCompetitionCommandValidatorMock = mock(CreateCompetitionCommandValidator::class.java)
@@ -69,7 +69,7 @@ object CompetitionControllerSpec : Spek({
                 .jsonPath("$", hasSize(equalTo(2)))
         }
 
-        it("should return single competition") {
+        it("should return single competitions") {
             val competition = Competition(
                 id = "1",
                 name = "name",
@@ -94,7 +94,7 @@ object CompetitionControllerSpec : Spek({
                 .jsonPath("$.events", isEmpty).isArray
         }
 
-        it("should return not found for not existing competition") {
+        it("should return not found for not existing competitions") {
             val competitionId = "1"
 
             given(competitionServiceMock.findById(competitionId))
@@ -106,7 +106,7 @@ object CompetitionControllerSpec : Spek({
                 .expectStatus().isNotFound
         }
 
-        it("should return bad request for invalid add competition command") {
+        it("should return bad request for invalid add competitions command") {
             val addCompetitionCommand = CreateCompetitionCommand(
                 name = "Barcelona vs Chelsea",
                 type = Competition.Type.SINGLE_EVENT,
@@ -127,7 +127,7 @@ object CompetitionControllerSpec : Spek({
                 .jsonPath("$.message").isEqualTo(validationErrorMessage)
         }
 
-        it("should create competition") {
+        it("should create competitions") {
             val addCompetitionCommand = CreateCompetitionCommand(
                 name = "Barcelona vs Chelsea",
                 type = Competition.Type.SINGLE_EVENT,
@@ -173,7 +173,7 @@ object CompetitionControllerSpec : Spek({
                 .jsonPath("$.events[0].id").isEqualTo(competition.events[0].id)
                 .jsonPath("$.events[0].homeTeamName").isEqualTo(competition.events[0].homeTeamName)
                 .jsonPath("$.events[0].awayTeamName").isEqualTo(competition.events[0].awayTeamName)
-//                .jsonPath("$.events[0].date").isEqualTo(competition.events[0].date)
+//                .jsonPath("$.events[0].date").isEqualTo(competitions.events[0].date)
         }
 
         it("should update event score") {

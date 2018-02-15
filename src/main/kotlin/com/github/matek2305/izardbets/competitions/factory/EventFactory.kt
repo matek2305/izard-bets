@@ -1,7 +1,7 @@
-package com.github.matek2305.izardbets.competition.factory
+package com.github.matek2305.izardbets.competitions.factory
 
-import com.github.matek2305.izardbets.competition.api.CreateEventCommand
-import com.github.matek2305.izardbets.competition.domain.Event
+import com.github.matek2305.izardbets.competitions.api.CreateEventCommand
+import com.github.matek2305.izardbets.competitions.domain.Event
 import org.springframework.stereotype.Component
 
 @Component

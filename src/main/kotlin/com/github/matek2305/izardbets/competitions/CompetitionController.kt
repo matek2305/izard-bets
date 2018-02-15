@@ -1,10 +1,10 @@
-package com.github.matek2305.izardbets.competition
+package com.github.matek2305.izardbets.competitions
 
-import com.github.matek2305.izardbets.competition.api.CreateCompetitionCommand
-import com.github.matek2305.izardbets.competition.api.CreateEventCommand
-import com.github.matek2305.izardbets.competition.api.UpdateEventScoreCommand
-import com.github.matek2305.izardbets.competition.domain.Competition
-import com.github.matek2305.izardbets.competition.validator.CreateCompetitionCommandValidator
+import com.github.matek2305.izardbets.competitions.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.competitions.api.CreateEventCommand
+import com.github.matek2305.izardbets.competitions.api.UpdateEventScoreCommand
+import com.github.matek2305.izardbets.competitions.domain.Competition
+import com.github.matek2305.izardbets.competitions.validator.CreateCompetitionCommandValidator
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping

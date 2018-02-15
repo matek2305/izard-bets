@@ -1,9 +1,9 @@
-package com.github.matek2305.izardbets.competition.validator
+package com.github.matek2305.izardbets.competitions.validator
 
 import com.github.matek2305.izardbets.common.exception.ValidationFailedException
-import com.github.matek2305.izardbets.competition.api.CreateCompetitionCommand
-import com.github.matek2305.izardbets.competition.api.CreateEventCommand
-import com.github.matek2305.izardbets.competition.domain.Competition
+import com.github.matek2305.izardbets.competitions.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.competitions.api.CreateEventCommand
+import com.github.matek2305.izardbets.competitions.domain.Competition
 import com.natpryce.hamkrest.assertion.assertThat
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.throws
@@ -14,18 +14,18 @@ import org.mockito.Mockito.mock
 
 class CreateCompetitionCommandValidatorSpec : Spek({
 
-    describe("add competition command validator") {
+    describe("add competitions command validator") {
 
         val validator = CreateCompetitionCommandValidator()
 
-        it("should fail for SINGLE_EVENT competition type with empty event list") {
+        it("should fail for SINGLE_EVENT competitions type with empty event list") {
 
             assertThat({
                 validator.validate(singleEventCompetitionWith(emptyList()))
             }, throws<ValidationFailedException>())
         }
 
-        it("should fail for SINGLE_EVENT competition type with more than one event") {
+        it("should fail for SINGLE_EVENT competitions type with more than one event") {
 
             val event1 = mock(CreateEventCommand::class.java)
             val event2 = mock(CreateEventCommand::class.java)
@@ -35,7 +35,7 @@ class CreateCompetitionCommandValidatorSpec : Spek({
             }, throws<ValidationFailedException>())
         }
 
-        it("should pass for SINGLE_EVENT competition type with exactly one event") {
+        it("should pass for SINGLE_EVENT competitions type with exactly one event") {
 
             val event = mock(CreateEventCommand::class.java)
             val command = singleEventCompetitionWith(listOf(event))

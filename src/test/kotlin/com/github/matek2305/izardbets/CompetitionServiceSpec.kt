@@ -2,12 +2,12 @@ package com.github.matek2305.izardbets
 
 import com.github.matek2305.izardbets.common.SecretEncoder
 import com.github.matek2305.izardbets.common.exception.InvalidSecretException
-import com.github.matek2305.izardbets.competition.CompetitionService
-import com.github.matek2305.izardbets.competition.api.UpdateEventScoreCommand
-import com.github.matek2305.izardbets.competition.domain.Competition
-import com.github.matek2305.izardbets.competition.domain.CompetitionRepository
-import com.github.matek2305.izardbets.competition.factory.CompetitionFactory
-import com.github.matek2305.izardbets.competition.factory.EventFactory
+import com.github.matek2305.izardbets.competitions.CompetitionService
+import com.github.matek2305.izardbets.competitions.api.UpdateEventScoreCommand
+import com.github.matek2305.izardbets.competitions.domain.Competition
+import com.github.matek2305.izardbets.competitions.domain.CompetitionRepository
+import com.github.matek2305.izardbets.competitions.factory.CompetitionFactory
+import com.github.matek2305.izardbets.competitions.factory.EventFactory
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it
@@ -18,7 +18,7 @@ import reactor.test.StepVerifier
 
 class CompetitionServiceSpec : Spek({
 
-    describe("competition service") {
+    describe("competitions service") {
 
         val competitionRepositoryMock = mock(CompetitionRepository::class.java)
         val competitionFactoryMock = mock(CompetitionFactory::class.java)

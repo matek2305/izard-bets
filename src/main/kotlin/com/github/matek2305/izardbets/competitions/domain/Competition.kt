@@ -1,4 +1,4 @@
-package com.github.matek2305.izardbets.competition.domain
+package com.github.matek2305.izardbets.competitions.domain
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.data.annotation.CreatedDate

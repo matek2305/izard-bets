@@ -1,4 +1,4 @@
-package com.github.matek2305.izardbets.competition.factory
+package com.github.matek2305.izardbets.competitions.factory
 
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Component

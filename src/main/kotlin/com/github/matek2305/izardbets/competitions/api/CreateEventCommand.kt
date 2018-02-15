@@ -1,4 +1,4 @@
-package com.github.matek2305.izardbets.competition.api
+package com.github.matek2305.izardbets.competitions.api
 
 import java.time.LocalDateTime
 
