@@ -1,1 +1,1 @@
-# izard-bets [![Build Status](https://travis-ci.org/matek2305/izard-bets.svg?branch=master)](https://travis-ci.org/matek2305/izard-bets)
+# izard-bets [![Build Status](https://travis-ci.org/matek2305/izard-bets.svg?branch=master)](https://travis-ci.org/matek2305/izard-bets) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3ecdf068857d4c5b858262b0e0b9f0de)](https://www.codacy.com/app/matek2305/izard-bets?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=matek2305/izard-bets&amp;utm_campaign=Badge_Grade)
