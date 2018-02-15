@@ -1,4 +1,4 @@
-package com.github.matek2305.izardbets.bets
+package com.github.matek2305.izardbets.bets.api
 
 data class CreateBetCommand(
     val competitionId: String,
