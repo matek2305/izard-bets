@@ -1,10 +1,13 @@
 package com.github.matek2305.izardbets
 
-import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
-import com.github.matek2305.izardbets.domain.Competition
-import com.github.matek2305.izardbets.exception.InvalidSecretException
-import com.github.matek2305.izardbets.factory.CompetitionFactory
-import com.github.matek2305.izardbets.factory.EventFactory
+import com.github.matek2305.izardbets.common.SecretEncoder
+import com.github.matek2305.izardbets.common.exception.InvalidSecretException
+import com.github.matek2305.izardbets.competition.CompetitionService
+import com.github.matek2305.izardbets.competition.api.UpdateEventScoreCommand
+import com.github.matek2305.izardbets.competition.domain.Competition
+import com.github.matek2305.izardbets.competition.domain.CompetitionRepository
+import com.github.matek2305.izardbets.competition.factory.CompetitionFactory
+import com.github.matek2305.izardbets.competition.factory.EventFactory
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.it

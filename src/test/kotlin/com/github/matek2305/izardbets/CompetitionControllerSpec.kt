@@ -1,13 +1,16 @@
 package com.github.matek2305.izardbets
 
-import com.github.matek2305.izardbets.api.CreateCompetitionCommand
-import com.github.matek2305.izardbets.api.CreateEventCommand
-import com.github.matek2305.izardbets.api.UpdateEventScoreCommand
-import com.github.matek2305.izardbets.domain.Competition
-import com.github.matek2305.izardbets.domain.Event
-import com.github.matek2305.izardbets.exception.InvalidSecretException
-import com.github.matek2305.izardbets.exception.ValidationFailedException
-import com.github.matek2305.izardbets.validator.AddCompetitionCommandValidator
+import com.github.matek2305.izardbets.common.RestExceptionHandler
+import com.github.matek2305.izardbets.common.exception.InvalidSecretException
+import com.github.matek2305.izardbets.common.exception.ValidationFailedException
+import com.github.matek2305.izardbets.competition.CompetitionController
+import com.github.matek2305.izardbets.competition.CompetitionService
+import com.github.matek2305.izardbets.competition.api.CreateCompetitionCommand
+import com.github.matek2305.izardbets.competition.api.CreateEventCommand
+import com.github.matek2305.izardbets.competition.api.UpdateEventScoreCommand
+import com.github.matek2305.izardbets.competition.domain.Competition
+import com.github.matek2305.izardbets.competition.domain.Event
+import com.github.matek2305.izardbets.competition.validator.CreateCompetitionCommandValidator
 import com.natpryce.hamkrest.equalTo
 import com.natpryce.hamkrest.hasSize
 import com.natpryce.hamkrest.isEmpty
@@ -29,7 +32,7 @@ object CompetitionControllerSpec : Spek({
     describe("competition controller") {
 
         val competitionServiceMock = mock(CompetitionService::class.java)
-        val addCompetitionCommandValidatorMock = mock(AddCompetitionCommandValidator::class.java)
+        val addCompetitionCommandValidatorMock = mock(CreateCompetitionCommandValidator::class.java)
 
         val webTestClient = WebTestClient
             .bindToController(CompetitionController(
