@@ -10,7 +10,6 @@ import java.time.LocalDateTime
 @Document(collection = "bets")
 data class Bet(
     @Id val id: String? = null,
-    val competitionId: String,
     val eventId: String,
     val who: String,
     val homeTeamScore: Int,

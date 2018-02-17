@@ -2,7 +2,6 @@ package com.github.matek2305.izardbets.common
 
 import com.github.matek2305.izardbets.common.api.ErrorMessage
 import com.github.matek2305.izardbets.common.exception.InvalidSecretException
-import com.github.matek2305.izardbets.common.exception.ValidationFailedException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -17,12 +16,5 @@ class RestExceptionHandler {
     @ExceptionHandler(InvalidSecretException::class)
     fun handleInvalidSecretException(exception: InvalidSecretException): ErrorMessage {
         return ErrorMessage(HttpStatus.FORBIDDEN, exception.message!!)
-    }
-
-    @ResponseBody
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ValidationFailedException::class)
-    fun handleValidationFailedException(exception: ValidationFailedException): ErrorMessage {
-        return ErrorMessage(HttpStatus.BAD_REQUEST, exception.message!!)
     }
 }

@@ -1,0 +1,37 @@
+[
+  {
+    "homeTeamName": "Chelsea",
+    "awayTeamName": "Barcelona",
+    "date": {
+      "$date": "2018-02-20T20:45:00+01:00"
+    },
+    "secret": "$2a$04$AGvP7L3M0/uj6KUO24Fn1.AfxZNwbHMf2x24UM.wVZKqaiKmLfROy",
+    "invitationCode": "qwertyui",
+    "status": "BETTING",
+    "version": "1"
+  },
+  {
+    "homeTeamName": "Juventus",
+    "awayTeamName": "Tottenham",
+    "date": {
+      "$date": "2018-02-13T20:45:00+01:00"
+    },
+    "homeTeamScore": 2,
+    "awayTeamScore": 2,
+    "secret": "$2a$04$AGvP7L3M0/uj6KUO24Fn1.AfxZNwbHMf2x24UM.wVZKqaiKmLfROy",
+    "invitationCode": "qwertyui",
+    "status": "FINISHED",
+    "version": "1"
+  },
+  {
+    "homeTeamName": "Tottenham",
+    "awayTeamName": "Juventus",
+    "date": {
+      "$date": "2018-03-07T20:45:00+01:00"
+    },
+    "secret": "$2a$04$AGvP7L3M0/uj6KUO24Fn1.AfxZNwbHMf2x24UM.wVZKqaiKmLfROy",
+    "invitationCode": "qwertyui",
+    "status": "CREATED",
+    "version": "1"
+  }
+]
