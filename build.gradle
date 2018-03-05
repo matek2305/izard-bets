@@ -6,9 +6,8 @@ buildscript {
 	}
 	repositories {
 		mavenCentral()
-		maven { url 'https://repo.spring.io/snapshot' }
-		maven { url 'https://repo.spring.io/milestone' }
         maven { url 'https://plugins.gradle.org/m2/' }
+        jcenter()
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
@@ -16,6 +15,7 @@ buildscript {
 		classpath("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
         classpath('org.junit.platform:junit-platform-gradle-plugin:1.0.0')
         classpath("gradle.plugin.com.palantir.gradle.docker:gradle-docker:$gradleDockerVersion")
+        classpath('com.github.ben-manes:gradle-versions-plugin:0.17.0')
     }
 }
 
@@ -27,6 +27,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.palantir.docker'
 apply plugin: 'org.junit.platform.gradle.plugin'
+apply plugin: 'com.github.ben-manes.versions'
 
 
 group = 'com.github.matek2305'
@@ -43,8 +44,6 @@ compileTestKotlin {
 
 repositories {
 	mavenCentral()
-	maven { url 'https://repo.spring.io/snapshot' }
-	maven { url 'https://repo.spring.io/milestone' }
     maven { url 'http://dl.bintray.com/jetbrains/spek' }
 }
 
