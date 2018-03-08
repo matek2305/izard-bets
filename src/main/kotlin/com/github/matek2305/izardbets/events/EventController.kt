@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import javax.validation.Valid
 
 @RestController
 class EventController(private val eventService: EventService) {
@@ -30,7 +31,7 @@ class EventController(private val eventService: EventService) {
 
     @PostMapping("/events")
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody command: Mono<CreateEventCommand>): Mono<Event> =
+    fun create(@Valid @RequestBody command: Mono<CreateEventCommand>): Mono<Event> =
         command.flatMap { eventService.create(it) }
 
     @PutMapping("/events/{id}")

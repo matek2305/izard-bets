@@ -1,11 +1,12 @@
 package com.github.matek2305.izardbets.events.api
 
 import java.time.LocalDateTime
+import javax.validation.constraints.NotBlank
 
 data class CreateEventCommand(
-    val homeTeamName: String,
-    val awayTeamName: String,
+    @field:NotBlank(message = "home team name is required") val homeTeamName: String,
+    @field:NotBlank(message = "away team name is required") val awayTeamName: String,
     val description: String? = null,
     val date: LocalDateTime,
-    val secret: String
+    @field:NotBlank(message = "secret is required") val secret: String
 )
