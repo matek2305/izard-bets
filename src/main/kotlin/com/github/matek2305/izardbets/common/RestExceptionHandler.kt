@@ -23,7 +23,7 @@ class RestExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(WebExchangeBindException::class)
     fun handleWebExchangeBindException(exception: WebExchangeBindException): ErrorMessage {
-        return ErrorMessage(HttpStatus.BAD_REQUEST, retrieveErrorMessage(exception))
+        return ErrorMessage(HttpStatus.BAD_REQUEST, "Validation failed: ${retrieveErrorMessage(exception)}")
     }
 
     private fun retrieveErrorMessage(exception: WebExchangeBindException): String {

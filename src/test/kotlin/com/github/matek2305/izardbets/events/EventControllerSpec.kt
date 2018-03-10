@@ -190,8 +190,9 @@ object EventControllerSpec : Spek({
                 .exchange()
                 .expectStatus().isForbidden
                 .expectBody()
-                .jsonPath("$.status").isEqualTo(HttpStatus.FORBIDDEN.name)
-                .jsonPath("$.message").isEqualTo(errorMessage)
+                .jsonPath("$.error").exists()
+                .jsonPath("$.error.status").isEqualTo(HttpStatus.FORBIDDEN.name)
+                .jsonPath("$.error.message").isEqualTo(errorMessage)
         }
     }
 })
