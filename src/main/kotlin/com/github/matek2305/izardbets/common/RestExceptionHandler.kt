@@ -28,6 +28,7 @@ class RestExceptionHandler {
 
     private fun retrieveErrorMessage(exception: WebExchangeBindException): String {
         return exception.bindingResult.fieldErrors
+            .sortedBy { it.field }
             .map { it.defaultMessage }
             .first() ?: exception.message!!
     }
